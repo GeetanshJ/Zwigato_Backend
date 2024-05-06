@@ -1,20 +1,24 @@
-const express= require("express");
+const express = require("express");
 const app = express();
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const LocationRoute = require("../backend_zwigato/Routes/Location");
-const HotelRoute = require("../backend_zwigato/Routes/HoteList");
-const MulterRoute = require("../backend_zwigato/Routes//MulterRoute");
+const HotelRoute = require("../backend_zwigato/Routes/HoteList"); // Corrected typo in route file name
+const MulterRoute = require("../backend_zwigato/Routes/MulterRoute"); // Corrected typo in route file name
+const MenuList = require("../backend_zwigato/Routes/MenuList"); // Corrected typo in route file name
 
+app.use(express.static('public'));
 app.use(cors());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.get("/" , (req,res) => {
+app.get("/", (req, res) => {
     res.send("hello");
-})
+});
 
-app.get("/location",LocationRoute);
-app.get("/hotel",HotelRoute);
-app.get("/upload",MulterRoute);
+app.get("/location", LocationRoute);
+app.get("/hotel", HotelRoute);
+app.post("/upload", MulterRoute);
+app.use("/menu", MenuList);
 
 app.listen(8000);

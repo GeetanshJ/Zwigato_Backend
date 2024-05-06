@@ -10,7 +10,7 @@ router.get("/Location",(req,res) => {
         }
 
         else{
-            res.send("200",{locate : results})
+            res.status("200").send({locate : results});
         }
     })
 })

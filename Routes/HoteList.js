@@ -4,7 +4,7 @@ const db = require("../utils/Database")
 
 router.get("/hotel",(req,res) => {
     let locationID = req.query.locationID;
-    let hotel_query = `select * from hotels where locationID = ?`;
+    let hotel_query = `select distinct * from hotels where locationID = ? `;
     // console.log(locationID);
 
     db.query(hotel_query,[locationID],(err,result) => {
