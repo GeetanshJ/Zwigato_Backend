@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../utils/Database")
 
-router.get("/Location",(req,res) => {
+router.get("/location",(req,res) => {
     let location_sql = `select * from locations`;
     db.query(location_sql,(err,results) => {
         if(err){
@@ -10,7 +10,7 @@ router.get("/Location",(req,res) => {
         }
 
         else{
-            res.status("200").send({locate : results});
+            res.status(200).send({locate : results});
         }
     })
 })
