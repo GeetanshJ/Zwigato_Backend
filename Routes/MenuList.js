@@ -6,7 +6,6 @@ const db = require("../utils/Database");
 
 router.get('/:hotelID', (req, res) => {
     let hotelID = req.params.hotelID;
-    console.log(hotelID);
     let menu_query = `SELECT * FROM menuList WHERE hotelID = ?`;
 
     db.query(menu_query, [hotelID], (err, result) => {

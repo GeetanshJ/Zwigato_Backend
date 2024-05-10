@@ -8,6 +8,7 @@ const MulterRoute = require("../backend_zwigato/Routes/MulterRoute"); // Correct
 const MenuList = require("../backend_zwigato/Routes/MenuList"); // Corrected typo in route file name
 const Categories = require("../backend_zwigato/Routes/Categories"); // Corrected typo in route file name
 const SelectedCategories = require("../backend_zwigato/Routes/SelectedCategories"); // Corrected typo in route file name
+const specificMenu = require("../backend_zwigato/Routes/specificMenu"); // Corrected typo in route file name
 
 app.use(express.static('public/uploads'));
 app.use(cors());
@@ -19,10 +20,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/location", LocationRoute);
-app.get("/hotel", HotelRoute);
+app.use("/hotel", HotelRoute);
 app.use("/owner", MulterRoute);
-app.get("/menu", MenuList);
-app.get("/categories", Categories);
+app.use("/menu", MenuList);
+app.use("/categories", Categories);
 app.use("/selectedCategories", SelectedCategories);
+app.use("/specificMenu", specificMenu);
 
 app.listen(8000);

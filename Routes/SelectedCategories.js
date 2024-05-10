@@ -5,7 +5,6 @@ const db = require("../utils/Database")
 router.get("/:categoryID",(req,res) => {
     let id = req.params.categoryID;
     console.log(id);
-    console.log(typeof(id));
 
     let sql = `  select hotels.* from hotels where hotelID in (Select hotelID from hotel_categories where categoryID = ?);  `;
 
