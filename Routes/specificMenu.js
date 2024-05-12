@@ -3,15 +3,13 @@ const router = express.Router();
 const db = require("../utils/Database")
 
 router.get("/:locationID/:hotelID/:categoryID",(req,res) => {
-    let id = req.params.categoryID;
+    let id_location = req.params.locationID;
     let id_hotel = req.params.hotelID;
-    let id_location = req.params.id_location;
+    let id_cat = req.params.categoryID;
 
-    console.log(id);
+    let sql = `  SELECT * FROM menuList WHERE  locationID = ? and hotelID = ? and categoryID = ?  `;
 
-    let sql = `  SELECT * FROM menuList WHERE hotelID = ?  and categoryID =? and locationID = ?`;
-
-    db.query(sql,[id_hotel,id,id_location],(err,result) => {
+    db.query(sql,[id_location,id_hotel,id_cat],(err,result) => {
         if(err) throw err;
 
         else{
