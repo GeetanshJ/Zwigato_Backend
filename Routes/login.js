@@ -1,18 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../utils/Database")
+const bcrypt = require("bcrypt")
 
-router.get("/",(req,res) => {
-    let locationID = req.query.locationID;
-    let hotel_query = `select  * from hotels where locationID = ? `;
+router.post("/",(req,res) => {
+    const {username,password} = req.body;
 
-    db.query(hotel_query,[locationID],(err,result) => {
-        if(err) throw err;
+    try {
+        const query = "SELECT * FROM users WHERE username = ?";
+        db.query(query, [username], async (err, result) => {
 
-        else{
-            res.send({hotel:result});
-        }
-    })
+            if (result.length === 0) {
+                return res.status(404).send({ error: "User not found" });
+            }
+
+            const user = result[0];
+            const passwordMatch = await bcrypt.compare(password, user.password);
+
+            if (!passwordMatch) {
+                return res.status(401).send({ error: "Incorrect password" });
+            }
+
+            res.status(200).send({ user });
+        });
+    } catch (error) {
+        console.error("Error logging in:", error);
+        res.status(500).send({ error: "Internal Server Error" });
+    }
 })
 
 module.exports = router;
