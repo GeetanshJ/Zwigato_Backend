@@ -12,7 +12,7 @@ router.get("/",(req,res) => {
         else{
             res.send({hotel:result});
         }
-    })
+    }) 
 })
 
 module.exports = router;

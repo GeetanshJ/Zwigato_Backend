@@ -1,6 +1,7 @@
 const multer = require("multer");
 const express = require("express")
-const router = express.Router()
+const router = express.Router();
+const db = require("../utils/Database")
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "public/uploads/");
@@ -13,12 +14,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/hotel_details", upload.single("hotel_image"), (req, res) => {
-    const hotelName = req.body.hotel_name;
-    const address = req.body.address;
-    const contactNumber = req.body.contact_number;
-    const locationID = req.body.location_id;
-    const categoryID = req.body.category_id;
+router.post("/", upload.single("hotel_image"), (req, res) => {
+    const{partnerID,name, address, contact_number, images,email,locationID} = req.body;
     let imageFileName = "";
     let imageMimeType = "";
     try {
@@ -27,15 +24,15 @@ router.post("/hotel_details", upload.single("hotel_image"), (req, res) => {
     } catch (error) {
         console.log(error);
     }
-    const sql = `INSERT INTO hotels (name, address, contact_number, locationID, categoryID, images) VALUES (?, ?, ?, ?, ?, ?)`;
-    const values = [hotelName, address, contactNumber, locationID, categoryID, imageFileName];
+    const sql = `INSERT INTO hotels (partnerID,name, address, contact_number, images,email,locationID) VALUES (?, ?, ?, ?, ?, ?,?)`;
+    const values = [partnerID,name, address, contact_number, imageFileName,email,locationID];
     db.query(sql, values, (err, result) => {
         if (err) {
             console.error("Error inserting hotel details:", err);
-            res.redirect("/home"); // Redirect to home page in case of error
+            res.redirect("/"); 
         } else {
             console.log("Hotel details inserted successfully.");
-            res.redirect("/home"); // Redirect to home page after successful insertion
+            res.redirect("/"); // Redirect to home page after successful insertion
         }
     });
 });
