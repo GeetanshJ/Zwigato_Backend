@@ -21,7 +21,7 @@ router.post("/",(req,res) => {
                 return res.status(401).send({ error: "Incorrect password" });
             }
 
-            res.status(200).send({ user });
+            res.status(200).send({ login:user });
         });
     } catch (error) {
         console.error("Error logging in:", error);
